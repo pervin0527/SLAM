@@ -1,0 +1,103 @@
+FROM --platform=linux/amd64 ubuntu:focal
+
+ARG DEBIAN_FRONTEND=noninteractive
+
+RUN apt-get update -y && apt-get upgrade -y
+
+# SSH 설치 및 설정
+RUN apt-get update && apt-get install -y openssh-server && mkdir /var/run/sshd
+RUN echo 'root:password' | chpasswd  # root 사용자 암호 설정
+
+# SSH 서버 설정
+RUN sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config
+RUN echo 'export DISPLAY=host.docker.internal:0' >> /etc/bash.bashrc
+
+# 컨테이너 실행 시 SSH 서버 시작
+CMD ["/usr/sbin/sshd", "-D"]
+
+RUN apt-get install build-essential -y && \
+    apt-get install cmake -y && \
+    apt-get install git -y && \
+    apt-get install sudo -y && \
+    apt-get install wget -y && \
+    apt-get install ninja-build -y && \
+    apt-get install software-properties-common -y && \
+    apt-get install python3 -y && \
+    apt-get install python3-pip -y && \
+    apt-get install -y ssh && \
+    apt-get install -y gcc && \
+    apt-get install -y g++ && \
+    apt-get install -y gdb && \
+    apt-get install -y cmake && \
+    apt-get install -y rsync && \
+    apt-get install -y tar && \
+    apt-get install -y x11-utils && \
+    apt-get install -y x11-apps && \
+    apt-get install -y zip &&\
+    apt-get clean
+
+# OpenCV
+RUN apt-get install -y cmake git libgtk2.0-dev pkg-config libavcodec-dev libavformat-dev libswscale-dev
+RUN wget https://github.com/opencv/opencv/archive/refs/tags/4.8.1.zip &&\
+    unzip 4.8.1.zip &&\
+    cd opencv-4.8.1 &&\
+    mkdir build && cd build &&\
+    cmake .. &&\
+    make -j4 &&\
+    make install &&\
+    cd ../../
+
+# Eigen
+RUN wget https://gitlab.com/libeigen/eigen/-/archive/3.3.8/eigen-3.3.8.zip &&\
+    unzip eigen-3.3.8.zip &&\
+    cd eigen-3.3.8 &&\
+    mkdir build && cd build &&\
+    cmake .. &&\
+    make -j4 &&\
+    make install &&\
+    cd ../../
+
+# Sophus
+RUN wget https://github.com/strasdat/Sophus/archive/refs/tags/1.22.10.zip &&\
+    unzip 1.22.10.zip &&\
+    cd Sophus-1.22.10 &&\
+    mkdir build && cd build &&\
+    cmake .. &&\
+    make -j4 &&\
+    make install && \
+    cd ../../
+
+# Pangolin
+RUN apt-get install -y mesa-utils && \
+    apt-get install -y libgl1-mesa-glx && \
+    apt-get install -y libglu1-mesa-dev && \
+    apt-get install -y libglew-dev &&\
+    apt-get install -y libglvnd-dev &&\
+    apt-get install -y libgl1-mesa-dev &&\
+    apt-get install -y libegl1-mesa-dev &&\
+    apt-get install -y mesa-common-dev
+
+RUN wget https://github.com/stevenlovegrove/Pangolin/archive/refs/tags/v0.6.zip &&\
+    unzip v0.6.zip &&\
+    cd Pangolin-0.6 &&\
+    mkdir build && cd build &&\
+    cmake .. &&\
+    make -j4 &&\
+    make install &&\
+    cd ../../
+    
+# PCL
+RUN apt-get install -y libpcl-dev
+
+# Ceres-solver
+RUN apt-get install -y libgoogle-glog-dev libgflags-dev libatlas-base-dev libsuitesparse-dev &&\
+    wget https://github.com/ceres-solver/ceres-solver/archive/refs/tags/2.1.0.zip &&\
+    unzip 2.1.0.zip &&\
+    cd ceres-solver-2.1.0 && \
+    mkdir build && cd build &&\
+    cmake .. &&\
+    make -j4 &&\
+    make install &&\
+    cd ../../
+
+RUN git clone https://github.com/pervin0527/SLAM
