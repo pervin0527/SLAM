@@ -4,17 +4,6 @@ ARG DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update -y && apt-get upgrade -y
 
-# SSH 설치 및 설정
-RUN apt-get update && apt-get install -y openssh-server && mkdir /var/run/sshd
-RUN echo 'root:password' | chpasswd  # root 사용자 암호 설정
-
-# SSH 서버 설정
-RUN sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config
-RUN echo 'export DISPLAY=host.docker.internal:0' >> /etc/bash.bashrc
-
-# 컨테이너 실행 시 SSH 서버 시작
-CMD ["/usr/sbin/sshd", "-D"]
-
 RUN apt-get install build-essential -y && \
     apt-get install cmake -y && \
     apt-get install git -y && \
@@ -100,4 +89,4 @@ RUN apt-get install -y libgoogle-glog-dev libgflags-dev libatlas-base-dev libsui
     make install &&\
     cd ../../
 
-RUN git clone https://github.com/pervin0527/SLAM
+# RUN git clone https://github.com/changh95/fastcampus_slam_codes.git
