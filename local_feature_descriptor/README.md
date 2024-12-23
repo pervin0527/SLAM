@@ -51,7 +51,7 @@ RUN cd fastcampus_slam_codes/3_2 &&\
 mkdir build && cd build
 cmake ..
 make -j
-./orb_feature_matching ~/kitti/dataset/sequences/00/image_0 ~/kitti/dataset/sequences/00/image_1 100
+./orb_feature_matching /home/pervinco/Datasets/KITTI/dataset/sequences/00/image_0 /home/pervinco/Datasets/KITTI/dataset/sequences/00/image_1 100
 ```
 
 ## code
@@ -59,7 +59,7 @@ make -j
 ### 1.실행 인자
 
 ```bash
-./orb_feature_matching /home/pervinco/Datasets/KITTI/sequences/00/image_0 /home/pervinco/Datasets/KITTI/sequences/00/image_1 100
+./orb_feature_matching /home/pervinco/Datasets/KITTI/dataset/sequences/00/image_0 /home/pervinco/Datasets/KITTI/dataset/sequences/00/image_1 100
 ```
 
 - argv[0]: 실행 파일 이름 (./orb_feature_matching)

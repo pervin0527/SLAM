@@ -25,16 +25,28 @@ RUN apt-get install build-essential -y && \
     apt-get install -y zip &&\
     apt-get clean
 
+# X11 server utility
+RUN apt-get install -y libgtk-3-dev libcanberra-gtk3-module libx11-dev x11-xserver-utils
+
 # OpenCV
+RUN apt-get update -y
 RUN apt-get install -y cmake git libgtk2.0-dev pkg-config libavcodec-dev libavformat-dev libswscale-dev
-RUN wget https://github.com/opencv/opencv/archive/refs/tags/4.8.1.zip &&\
-    unzip 4.8.1.zip &&\
-    cd opencv-4.8.1 &&\
-    mkdir build && cd build &&\
-    cmake .. &&\
-    make -j4 &&\
-    make install &&\
+RUN wget https://github.com/opencv/opencv/archive/refs/tags/4.8.1.zip && \
+    unzip 4.8.1.zip && \
+    cd opencv-4.8.1 && \
+    mkdir build && cd build && \
+    cmake -D CMAKE_BUILD_TYPE=Release \
+          -D CMAKE_INSTALL_PREFIX=/usr/local \
+          -D WITH_GTK=ON \
+          -D WITH_OPENGL=ON \
+          -D WITH_TBB=ON \
+          -D BUILD_opencv_python3=OFF \
+          .. && \
+    make -j$(nproc) && \
+    make install && \
+    ldconfig && \
     cd ../../
+
 
 # Eigen
 RUN wget https://gitlab.com/libeigen/eigen/-/archive/3.3.8/eigen-3.3.8.zip &&\
