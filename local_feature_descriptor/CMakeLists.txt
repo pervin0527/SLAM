@@ -11,3 +11,6 @@ endif (OpenCV_FOUND)
 
 add_executable(orb_feature_matching examples/orb_feature_matching.cpp)
 target_link_libraries(orb_feature_matching ${OpenCV_LIBS})
+
+add_executable(test examples/test.cpp)
+target_link_libraries(test ${OpenCV_LIBS})
