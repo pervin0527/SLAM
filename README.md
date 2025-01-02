@@ -50,3 +50,9 @@ apt install libgtk2.0-dev libgtk-3-dev libqt5gui5 libqt5widgets5 libqt5core5a -y
 
 ``` bash
 xhost +local:docker
+docker exec -it slam bash
+
+## x11 테스트
+apt update && apt install -y x11-apps
+xclock
+```
