@@ -70,9 +70,9 @@ def main():
 
         left_kp_image, right_kp_image, match_image = draw_keypoints_and_matches(left_img, right_img, left_kp, right_kp, good_matches)
 
-        # cv2.imshow("left_kp_image", left_kp_image)
-        # cv2.imshow("right_kp_image", right_kp_image)
-        # cv2.waitKey(0)
+        cv2.imshow("left_kp_image", left_kp_image)
+        cv2.imshow("right_kp_image", right_kp_image)
+        cv2.waitKey(0)
         # cv2.destroyAllWindows()
 
         left_save_path = os.path.join(save_path, f"left_kp_{os.path.basename(left_file)}")
@@ -82,8 +82,6 @@ def main():
         cv2.imwrite(left_save_path, left_kp_image)
         cv2.imwrite(right_save_path, right_kp_image)
         cv2.imwrite(match_save_path, match_image)
-
-        break
 
 if __name__ == "__main__":
     main()

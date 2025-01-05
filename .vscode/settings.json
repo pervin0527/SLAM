@@ -5,5 +5,12 @@
         "iostream": "cpp"
     },
     "C_Cpp.default.cppStandard": "c++17",
-    "cmake.ignoreCMakeListsMissing": true
+    "cmake.ignoreCMakeListsMissing": true,
+    "python.defaultInterpreterPath": "/usr/bin/python3",
+    "python.terminal.activateEnvironment": false,
+    "python.terminal.launchArgs": [
+        "-c",
+        "source ~/.bashrc && source ~/.profile"
+    ],
+    "docker.pythonPath": "/usr/local/bin/python3"
 }
