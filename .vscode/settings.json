@@ -2,7 +2,10 @@
     "files.associations": {
         "*.py": "python",
         "*.html": "html",
-        "iostream": "cpp"
+        "iostream": "cpp",
+        "*.tcc": "cpp",
+        "deque": "cpp",
+        "vector": "cpp"
     },
     "C_Cpp.default.cppStandard": "c++17",
     "cmake.ignoreCMakeListsMissing": true,
