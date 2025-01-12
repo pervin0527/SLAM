@@ -39,27 +39,3 @@ cd fastcampus_slam_codes/4_4
 ./build/sor
 ./build/plane_det
 ```
-
----
-
-# Output
-
-## Passthrough filter (Remove LiDAR points from vehicle)
-
-![](./passthrough.png)
-
-## KD-Tree (Find nearest neighbor LiDAR points)
-
-![](./kdtree.png)
-
-## Downsampling
-
-![](./downsample.png)
-
-## Floor plane detection
-
-![](./plane_det.png)
-
-## Statistical Outlier Removal (SOR)
-
-![](./sor.png)
