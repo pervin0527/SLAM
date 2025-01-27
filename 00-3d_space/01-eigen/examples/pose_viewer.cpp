@@ -1,6 +1,5 @@
 #include <pangolin/pangolin.h>
 #include <Eigen/Core>
-
 #include <unistd.h>
 
 void DrawTrajectory(
@@ -28,16 +27,19 @@ int main(int argc, char **argv)
 
   while (!fin.eof())
   {
+    // 프레임 번호, SE(3) (4, 4)행렬의 원소들
     double index, m11, m12, m13, m14, m21, m22, m23, m24, m31, m32, m33, m34,
       m41, m42, m43, m44;
     fin >> index >> m11 >> m12 >> m13 >> m14 >> m21 >> m22 >> m23 >> m24 >>
       m31 >> m32 >> m33 >> m34 >> m41 >> m42 >> m43 >> m44;
 
+    // rotation matrix
     Eigen::Matrix<double, 3, 3> mat;
     mat << m11, m12, m13, m21, m22, m23, m31, m32, m33;
-    Eigen::Isometry3d Twr(mat);
-    Twr.pretranslate(Eigen::Vector3d(m14 * 0.001, m24 * 0.001, m34 * 0.001));
-    poses.push_back(Twr);
+
+    Eigen::Isometry3d Twr(mat); // 3D 공간에서 물체의 위치와 방향을 나타내는 도구로 회전과 **이동(병진)**을 한 번에 표현.
+    Twr.pretranslate(Eigen::Vector3d(m14 * 0.001, m24 * 0.001, m34 * 0.001)); // 0.001을 곱해 공간을 축소시킴. pretranslate를 통해 m14, m24, m34를 translation으로 입력.
+    poses.push_back(Twr); // 벡터에 append
   }
   std::cout << "read total " << poses.size() << " pose entries" << std::endl;
 
@@ -47,12 +49,10 @@ int main(int argc, char **argv)
 }
 
 /*******************************************************************************************/
-void DrawTrajectory(
-  std::vector<Eigen::Isometry3d, Eigen::aligned_allocator<Eigen::Isometry3d>>
-    poses)
+void DrawTrajectory(std::vector<Eigen::Isometry3d, Eigen::aligned_allocator<Eigen::Isometry3d>>poses)
 {
   // create pangolin window and plot the trajectory
-  pangolin::CreateWindowAndBind("Trajectory Viewer", 1024, 768);
+  pangolin::CreateWindowAndBind("Trajectory Viewer", 1024, 768); // window를 만든다.
   glEnable(GL_DEPTH_TEST);
   glEnable(GL_BLEND);
   glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
